@@ -36,6 +36,7 @@ module.exports = {
         });
       },
       serialize: ({ path, matchPath }) => {
+        console.log("path", path, "matchPath", matchPath)
         let url = matchPath ? matchPath : path;
         url = url.startsWith("/") ? url : `/${url}`;
         return {
