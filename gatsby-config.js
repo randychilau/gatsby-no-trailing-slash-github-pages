@@ -2,12 +2,12 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
+  pathPrefix: "/gatsby-no-trailing-slash-github-pages",
   siteMetadata: {
     title: `example site`,
-    siteUrl: `https://www.yourdomain.tld`
+    siteUrl: "https://randychilau.github.io/gatsby-no-trailing-slash-github-pages"
   },
   trailingSlash: "never",
-  pathPrefix: "/gatsby-no-trailing-slash",
   plugins: [
     {
       resolve: "gatsby-plugin-sitemap",
