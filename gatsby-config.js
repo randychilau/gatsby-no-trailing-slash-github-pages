@@ -7,6 +7,7 @@ module.exports = {
     siteUrl: `https://www.yourdomain.tld`
   },
   trailingSlash: "never",
+  pathPrefix: "/gatsby-no-trailing-slash",
   plugins: [
     {
       resolve: "gatsby-plugin-sitemap",
