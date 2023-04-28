@@ -64,34 +64,27 @@ async function writeRedirectsFile(redirects, folder, pathPrefix, siteUrl) {
 function getMetaRedirect(toPath, pathPrefix, siteUrl) {
 
   const ci = process.env.CI;
-
   let url = toPath.replace(pathPrefix, "").trim();
-
   const hasProtocol = url.includes("://");
   if (!hasProtocol) {
-
     const hasLeadingSlash = url.startsWith("/");
     if (!hasLeadingSlash) {
       url = `/${url}`;
     }
-
     const resemblesFile = url.includes(".");
-    if (!resemblesFile) {
-    /*modified for GitHub Pages due to url handling, more info
+       /*modified for GitHub Pages due to url handling, more info
     https://slorber.github.io/trailing-slash-guide/.
     original code:
     url = `${url}/`.replace(/\/\/+/g, '/');
     */
+    if (!resemblesFile) {
       url = ci
         ? url = `${url}`.replace(/\/\/+/g, "/")
         : url = `${url}/`.replace(/\/\/+/g, "/");
     }
   }
-
   const metaRefresh = `<meta http-equiv="refresh" content="0; URL='${pathPrefix}${url}'" />`;
-
   const metaCanonical =  `<link rel="canonical" href="${siteUrl}${url}" />`;
-
   return metaRefresh + metaCanonical;
 };
 
@@ -107,7 +100,8 @@ exports.onPostBuild = ({ store }) => {
 
   const siteUrl = config.siteMetadata.siteUrl;
   const folder = path.join(program.directory, "public");
-
+  console.log("pathPrefix", pathPrefix)
+  console.log("siteUrl", siteUrl)
   return writeRedirectsFile(redirects, folder, pathPrefix, siteUrl);
 };
 
