@@ -27,23 +27,25 @@ module.exports = {
           }
         }
       `,
-        resolveSiteUrl: ({ site: { siteMetadata: { siteUrl } } }) => siteUrl,
-        resolvePages: ({
-          allSitePage: { nodes: allPages },
-        }) => {
-          return allPages.map(page => {
-            return { ...page };
-          });
-        },
-        serialize: ({ path, matchPath }) => {
-          return {
-            url: matchPath ? matchPath : path,
-            changefreq: "daily",
-            priority: 0.7,
-          };
-        },
+      resolveSiteUrl: ({ site: { siteMetadata: { siteUrl } } }) => siteUrl,
+      resolvePages: ({
+        allSitePage: { nodes: allPages },
+      }) => {
+        return allPages.map(page => {
+          return { ...page };
+        });
       },
-    },
-
+      serialize: ({ path, matchPath }) => {
+        let url = matchPath ? matchPath : path;
+        url = url.startsWith("/") ? url : `/${url}`;
+        return {
+          url: url,
+          changefreq: "daily",
+          priority: 0.7,
+        };
+      },
+    }, 
+  }   
   ]
 };
+
