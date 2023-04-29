@@ -4,7 +4,7 @@
 module.exports = {
   pathPrefix: "/gatsby-no-trailing-slash-github-pages",
   siteMetadata: {
-    title: `example site`,
+    title: "Gatsby No Trailing Slash Site on GitHub Pages",
     siteUrl: "https://randychilau.github.io/gatsby-no-trailing-slash-github-pages"
   },
   trailingSlash: "never",
@@ -36,7 +36,6 @@ module.exports = {
         });
       },
       serialize: ({ path, matchPath }) => {
-        console.log("path", path, "matchPath", matchPath)
         let url = matchPath ? matchPath : path;
         url = url.startsWith("/") ? url : `/${url}`;
         return {
