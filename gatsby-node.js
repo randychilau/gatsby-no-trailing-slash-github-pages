@@ -4,16 +4,25 @@ const { exists, writeFile, ensureDir } = require("fs-extra");
 // Implement the Gatsby API “onCreatePage”. This is
 // called after every page is created.
 // The env conditional is for GitHub Pages
+
 if (process.env.CI) {
 
   // Replacing '/' would result in empty string which is invalid
-  const replacePath = (path) => (path === "/" || path.includes("/404")) ? path : `${path}.html`;
+  
+  exports.onCreatePage = ({ page, actions, store}) => {
 
-  exports.onCreatePage = ({ page, actions }) => {
     const { createPage, deletePage, createRedirect } = actions;
+    const { config } = store.getState();
     const oldPage = Object.assign({}, page);
-    page.matchPath = page.path;
-    page.path = replacePath(page.path);
+    const replacePath = (path) => (path === "/" || path.includes("/404")) ? path : `${path}.html`;
+ 
+    page.matchPath = (config.pathPrefix && page.path=== "/") 
+    ? config.pathPrefix 
+    : page.path;
+    
+    page.path = (config.pathPrefix && page.path=== "/") 
+    ? `${config.pathPrefix}.html`
+    : replacePath(page.path);
 
     if (page.path !== oldPage.path) {
     // Replace new page with old page
