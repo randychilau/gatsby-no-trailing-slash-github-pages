@@ -84,7 +84,7 @@ function getMetaRedirect(toPath, pathPrefix, siteUrl) {
     }
   }
   const metaRefresh = `<meta http-equiv="refresh" content="0; URL='${pathPrefix}${url}'" />`;
-  const metaCanonical =  `<link rel="canonical" href="${siteUrl}${url}" />`;
+  const metaCanonical =  `<link rel="canonical" href="${siteUrl}${pathPrefix}${url}" />`;
   return metaRefresh + metaCanonical;
 };
 
