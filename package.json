@@ -2,7 +2,7 @@
   "name": "example",
   "version": "1.0.0",
   "private": true,
-  "description": "example",
+  "description": "example site without trailing slash",
   "author": "Randy Lau",
   "keywords": [
     "gatsby"
