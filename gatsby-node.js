@@ -100,7 +100,6 @@ exports.onPostBuild = ({ store }) => {
 
   const siteUrl = config.siteMetadata.siteUrl;
   const folder = path.join(program.directory, "public");
-  console.log("pathPrefix", pathPrefix)
   console.log("siteUrl", siteUrl)
   return writeRedirectsFile(redirects, folder, pathPrefix, siteUrl);
 };
