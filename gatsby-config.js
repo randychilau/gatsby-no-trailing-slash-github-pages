@@ -4,8 +4,9 @@
 module.exports = {
   pathPrefix: "/gatsby-no-trailing-slash-github-pages",
   siteMetadata: {
-    title: "Gatsby No Trailing Slash Site on GitHub Pages",
-    siteUrl: "https://randychilau.github.io/gatsby-no-trailing-slash-github-pages"
+    title: "No Trailing Slash",
+    siteUrl: "https://www.test.com/test",
+    description: "A working example of a Gatsby site hosted on GitHub Pages without a trailing slash"
   },
   trailingSlash: "never",
   plugins: [
@@ -46,6 +47,6 @@ module.exports = {
       },
     }, 
   }   
-  ]
+  ],
 };
 
