@@ -36,9 +36,11 @@ module.exports = {
           return { ...page };
         });
       },
-      serialize: ({ path, matchPath }) => {
+      serialize: ({ path, matchPath, site: { siteMetadata: { siteUrl } } }) => {
         let url = matchPath ? matchPath : path;
+        if (url === siteUrl) return
         url = url.startsWith("/") ? url : `/${url}`;
+        url= url.endsWith("/") ? url.replace(/\/$/, "") : url
         return {
           url: url,
           changefreq: "daily",
