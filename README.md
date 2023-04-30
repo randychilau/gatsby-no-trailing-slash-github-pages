@@ -175,6 +175,6 @@ When you run a build in GitHub Actions, in the build logs you should see pages b
 
 So here is [the working example](https://randychilau.github.io/gatsby-no-trailing-slash-github-pages/) of a Gatsby site hosted on GitHub Pages that doesn't use trailing slashes.
 
-Feel free to let me know if anything needs additional explanation.
+Feel free to let me know if anything needs additional explanation or if you have any questions.
 
 Thanks for reading and cheers to everyone posting those signs next to rabbit holes.
