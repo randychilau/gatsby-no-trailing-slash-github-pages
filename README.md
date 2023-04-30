@@ -5,7 +5,7 @@ Here is the [example site](https://randychilau.github.io/gatsby-no-trailing-slas
 ---
 
 Credit:
-[slorber](https://github.com/slorber), [jon-sully](https://github.com/jon-sully), [gatsby-plugin-meta-redirect](https://github.com/nsresulta/gatsby-plugin-meta-redirect), Gatsby Team, [everyone on "the thread"](https://github.com/gatsbyjs/gatsby/discussions/34205), and ChatGPT for pointing me in a direction I wasn't considering.
+[slorber](https://github.com/slorber), [jon-sully](https://github.com/jon-sully), [gatsby-plugin-meta-redirect](https://github.com/nsresulta/gatsby-plugin-meta-redirect), Gatsby Team, everyone on "the threads" [[1]](https://github.com/gatsbyjs/gatsby/discussions/34205)[[2]](https://github.com/gatsbyjs/gatsby/discussions/27889), and ChatGPT for pointing me in a direction I wasn't considering.
 
 ---
 
@@ -175,6 +175,6 @@ When you run a build in GitHub Actions, in the build logs you should see pages b
 
 So here is [the working example](https://randychilau.github.io/gatsby-no-trailing-slash-github-pages/) of a Gatsby site hosted on GitHub Pages that doesn't use trailing slashes.
 
-Feel free to let me know if anything needs additional explanation or if you have any questions.
+Feel free to let me know if anything needs additional explanation.
 
 Thanks for reading and cheers to everyone posting those signs next to rabbit holes.
