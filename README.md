@@ -1,18 +1,27 @@
-<h1>
- Example of Gatsby Site hosted on GitHub Pages without a trailing slash in the url (including the sitemap)
-</h1>
+## Example of Gatsby Site hosted on GitHub Pages without a trailing slash (aka "no-trailing-slash") in the url (including the sitemap)
+
+Here is the [example site](https://randychilau.github.io/gatsby-no-trailing-slash-github-pages/). Thanks for visiting!
+
+---
 
 Credit:
 [slorber](https://github.com/slorber), [jon-sully](https://github.com/jon-sully), [gatsby-plugin-meta-redirect](https://github.com/nsresulta/gatsby-plugin-meta-redirect), Gatsby Team, [everyone on "the thread"](https://github.com/gatsbyjs/gatsby/discussions/34205), and ChatGPT for pointing me in a direction I wasn't considering.
 
 ---
 
+**tl;dr**
+
+- use `onCreatePage` to make html files for no-trailing-slash requests
+- use `createRedirect` to handle trailing slash requests
+- set `trailingSlash` to `"never"`
+
+---
+
 Notes:
 
 - This issue may not be relevant anymore as some may have moved on from hosting on GitHub Pages or changed their stance on trailing-slash vs no-trailing-slash. For those interested in a working example, hopefully this is helpful.
-- There may be some aspects of this example that are not "best practice" or misunderstanding certain functions or syntax.
-- This writing became much longer than expected and may lose focus, be overly wordy, or lacking explanation in some parts.
-- Please feel free to provide feedback by creating an issue? to help improve the method, as well as increase the readability of this page.
+- It was a simple request (remove the trailing slash) that became a trip down the rabbit hole. And when you resurface days, weeks later, you write a post like this to put a sign next to that rabbit hole that says "feel free to read before going down".
+- There may be some aspects of this example that are not "best practice" or misunderstanding certain functions or syntax. Please feel free to provide feedback by creating an issue? to help improve the method, as well as increase the readability of this page.
 
 ---
 
@@ -38,17 +47,29 @@ for testing purposes:
 
 ---
 
-We want Gatsby to turn [name].js files created in the `pages` directory to become /name.html files so that when a browser requests that page without a trailing slash ("/name") from GitHub Pages, it will serve that page.
+## What do we want to do?
+
+We want Gatsby to turn `[name].js` files created in the `pages` directory to become `name.html` files. We want this because when GitHub Pages receives a browser request with no-trailing-slash, for example`/name`, it will attempt to serve `name.html`file.
+
+Currently [Gatsby turns](https://jonsully.net/blog/trailing-slashes-and-gatsby/) [`name].js`files in the`pages`directory into a`/[name]`folder with an`index.html` file.
+
+The default behavior of how GitHub Pages handles a Gatsby site url with no-trailing-slash can be seen in the example below using a source code viewer:
+
+![enter image description here](https://i.ibb.co/J2vcCfH/code17.png)
+
+since it cannot find the `[name].html` file (in the above example, blog.html), it sees the folder named `blog` and GitHub Pages creates a 301 redirect to that folder (now the url has a trailing slash), and loads the `index.html` file. Checking the browser console network tab shows the same:
+
+![enter image description here](https://i.ibb.co/NjFgQRv/code18.png)
+
+It [has been documented](https://jonsully.net/blog/trailing-slashes-and-gatsby/) that when Gatsby’s [createPage](https://www.gatsbyjs.com/docs/reference/config-files/actions/#createPage) function is given a page.path that ends with “.html” it will create a file with [page.path].html.
+
+Using this knowledge and Gatsby’s `onCreatePage API` (which gets called automatically each time Gatsby uses `createPage` on files in the `/pages` folder), we can insert a step into the workflow to output our desired .html file to replace the page/folder that was just created.
 
 additional reading:
 
 - [how GitHub Pages handles urls](https://slorber.github.io/trailing-slash-guide/)
 - Gatsby and GitHub Pages default interaction for no-trailing-slash is the following: "GitHub pages will redirect from `/xyz` to `/xyz/`" ([source](https://github.com/gatsbyjs/gatsby/discussions/34205#discussioncomment-2007632))
 - sidenote: there [used to be a plugin](https://npm.io/package/gatsby-plugin-create-page-html) that helped created .html files, but it was deleted.
-
-It [has been documented](https://jonsully.net/blog/trailing-slashes-and-gatsby/) that when Gatsby’s [createPage](https://www.gatsbyjs.com/docs/reference/config-files/actions/#createPage) function is given a page.path that ends with “.html” it will create a file with [page.path].html.
-
-Using this knowledge and Gatsby’s `onCreatePage API` (which gets called automatically each time Gatsby uses `createPage` on files in the `/pages` folder), we can insert a step into the workflow to output our desired .html file to replace the page/folder that was just created.
 
 ---
 
@@ -67,7 +88,7 @@ code notes:
 
 - we want to build a new page that changes the `page.path` and add a page.matchPath property.
   - For the `page.path` property, we change it to end in `.html` with `replacePath`, so `createPage` will output the html file. (e.g. `/blog` will output `blog.html`)
-  - We add a `page.matchPath` property set to the original `page.path` (without the trailing slash) for the client router to find.
+  - We add a `page.matchPath` property set to the original `page.path` (with no-trailing-slash) for the client router to find.
 
 > **Question**: Why do we want to delete the page and folder that was automatically created by Gatsby? Don't we want to keep it so if a browser uses a trailing-slash to request the page from GitHub Pages it will serve the page?
 > **Answer**: Generally you do not want to serve two pages of identical content on two different urls because it can be confusing for SEO. However it is not required to delete the index.html page, and you would still have a Gatsby site that is accessible with no trailing slash.
@@ -76,7 +97,7 @@ code notes:
 
 **Handling trailing slash requests**
 
-Next, we handle a browser requesting a url with a trailing slash, we need to have a folder and index.html file available to prevent a `404` status code, but we want to redirect users to the correct url without the trailing slash.
+Next, we handle a browser requesting a url with a trailing slash, we need to have a folder and index.html file available to prevent a `404` status code, but we want to redirect users to the correct url with no-trailing-slash.
 
 To do this, we use Gatsby's `createRedirect` and a modified version of `gatsby-plugin-meta-redirect` which handles building the folder and index.html file with redirect code (note: `createRedirect` is only active during `production` builds).
 
@@ -135,9 +156,6 @@ code notes:
   ![enter image description here](https://i.ibb.co/2PPXmcZ/code8.png)
   a meta refresh tag that will redirect the browser to the no-trailing-slash url of the page. You should also see the canonical tag.
 
-note: if you enter in a GitHub Pages url without a trailing slash that has a folder with that name and an `index.html` file in that folder, such as `https://slorber.github.io/trailing-slash-guide/folder` you will see the 301 redirect that is created by GitHub Pages (this is the current default behavior of how GitHub Pages handles a Gatsby site url without a trailing slash)
-![enter image description here](https://i.ibb.co/WG5MtGL/code15.png)
-
 **Another indicator Gatsby is building pages correctly**
 When you run a build in GitHub Actions, in the build logs you should see pages being created ending with `.html`.
 ![enter image description here](https://i.ibb.co/fDj9D5g/code14.png)
@@ -155,4 +173,8 @@ When you run a build in GitHub Actions, in the build logs you should see pages b
 
 ---
 
-So here is [the working example](https://randychilau.github.io/gatsby-no-trailing-slash-github-pages/) of a Gatsby site hosted on GitHub Pages that doesn't use trailing slashes. Let me know if anything needs additional explanation.
+So here is [the working example](https://randychilau.github.io/gatsby-no-trailing-slash-github-pages/) of a Gatsby site hosted on GitHub Pages that doesn't use trailing slashes.
+
+Feel free to let me know if anything needs additional explanation.
+
+Thanks for reading and cheers to everyone posting those signs next to rabbit holes.
