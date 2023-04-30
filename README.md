@@ -38,7 +38,7 @@ from Gatsby:
 
 from GitHub:
 
-1.  CI environment variable](https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables)
+1.  [CI environment variable](https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables)
 
 for testing purposes:
 
@@ -82,7 +82,7 @@ In `gatsby-node.js` file, we add the following code to build the .html pages:
 code notes:
 
 - `process.env.CI`
-  This CI value tells us if the site is being built in GitHub Actions, and lets our method work conditionally and not impact local development environment builds. (If you use a deploy script that does not use GitHub Actions, then you will want to include the CI variable like so: `CI=true npm run deploy`)
+  This CI value tells us if the site is being built in GitHub Actions, and lets our method work conditionally and not impact local development environment builds. If you do not use GitHub Actions to update your site on GitHub Pages and use a script like [`"deploy":  "gatsby build --prefix-paths && gh-pages -d public"`](https://www.gatsbyjs.com/docs/how-to/previews-deploys-hosting/how-gatsby-works-with-github-pages/), then you will want to include the CI variable in your command: `CI=true npm run deploy`.
 
 - we take the automatically created `page`object as a prop for the `onCreatePage` function, as well as [`actions`](https://www.gatsbyjs.com/docs/reference/config-files/actions/), which is an object provided by Gatsby.
 
