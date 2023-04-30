@@ -32,15 +32,14 @@ module.exports = {
       resolvePages: ({
         allSitePage: { nodes: allPages },
       }) => {
-        return allPages.map(page => {
+        return allPages.filter(page => page.path !== "/").map(page => {
           return { ...page };
         });
       },
-      serialize: ({ path, matchPath, site: { siteMetadata: { siteUrl } } }) => {
+      serialize: ({ path, matchPath }) => {
         let url = matchPath ? matchPath : path;
-        if (url === siteUrl) return
         url = url.startsWith("/") ? url : `/${url}`;
-        url= url.endsWith("/") ? url.replace(/\/$/, "") : url
+      
         return {
           url: url,
           changefreq: "daily",
