@@ -123,7 +123,14 @@ In `gatsby-config.js`, we update the `gatsby-plugin-sitemap` settings to use the
 code notes:
 
 - ![enter image description here](https://i.ibb.co/7pgQwQC/code6.png)
+
   Here is where we build the sitemap page. You can see the [repo example](https://randychilau.github.io/gatsby-no-trailing-slash-github-pages/sitemap-0.xml).
+
+- You will see the home page / domain name in the sitemap with a trailing slash (e.g. `http://www.your-domain-name.com/`). There is no setting to remove the trailing slash for this item, but it is insignificant to SEO and Google and does not impact anything.
+  > Trailing slashes after the domain name don’t matter
+  > `domain.com` = `domain.com/` These URLs are treated exactly the same and it doesn’t matter which version you use. ([source](https://ahrefs.com/blog/trailing-slash/))
+
+> confirmed by Google Search Advocate [John Mueller](https://developers.google.com/search/blog/authors/john-mueller) in this [post](https://johnmu.com/trailing-slash-or-not/))
 
 ---
 
@@ -135,11 +142,7 @@ code notes:
 
 **How to check to make sure things are working**
 
-> **reminder**: The way GitHub Pages handles trailing slash urls does not
-> happen when you are in local `development` and `production`
-> environments, so the fix should be conditional and executed when the
-> site is being built and deployed within GitHub Actions or with
-> `CI=true` before npm scripts.
+> **reminder**: The way GitHub Pages handles trailing slash urls does not happen when you are in local `development` and `production` environments, so the fix should be conditional and executed when the site is being built and deployed within GitHub Actions or with `CI=true` before npm scripts.
 
 1. After GitHub Actions or your deploy script has the build in GitHub Pages, go to a site page with no-trailing slash in your browser and click "Refresh" to reload the url. You should not see any change in the address bar or a trailing slash appear/disappear. If you access the browser console's `network` tab and see a status 200 code to load the page, then it is working.
    ![enter image description here](https://i.ibb.co/BT0H4nF/code9.png)
@@ -159,6 +162,7 @@ code notes:
 **Another indicator Gatsby is building pages correctly**
 When you run a build in GitHub Actions, in the build logs you should see pages being created ending with `.html`.
 ![enter image description here](https://i.ibb.co/fDj9D5g/code14.png)
+
 (you can also see this in your IDE console if enter `CI=true npm run build`)
 
 ---
